@@ -56,7 +56,7 @@
 
     <!-- LOGO -->
     <div class="logo-box">
-        <a href="{{ route('dashboard.index') }}" class="logo logo-dark text-center">
+        <a href="{{ route('admin.dashboard.index') }}" class="logo logo-dark text-center">
             <span class="logo-lg">
                 <img src="{{ asset('/images/logos/logo_sekolah_pro.png') }}" alt="" height="75">
             </span>
@@ -64,7 +64,7 @@
                 <img src="{{ asset('/images/logos/logo_sekolah_pro.png') }}" alt="" height="24">
             </span>
         </a>
-        <a href="{{ route('dashboard.index') }}" class="logo logo-light text-center">
+        <a href="{{ route('admin.dashboard.index') }}" class="logo logo-light text-center">
             <span class="logo-lg">
                 <img src="{{ asset('/images/logos/logo_sekolah_pro.png') }}" alt="" height="16">
             </span>

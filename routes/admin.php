@@ -6,4 +6,6 @@ Route::group(['prefix' => 'admin'], function(){
         Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard.index');
     });
 
+
+
 });
