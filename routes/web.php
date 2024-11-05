@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LandingPage\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,15 +17,17 @@ use App\Http\Controllers\LandingPage\HomeController;
 //     return view('welcome');
 // });
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\LandingPage\HomeController::class, 'index'])->name('home');
 
-Route::get('admin/login', 'Auth\AdminController@showLoginForm')->name('admin.login');
-Route::post('admin/login', 'Auth\AdminController@login')->name('admin.login.submit');
-Route::get('admin/logout/', 'Auth\AdminController@logout')->name('admin.logout');
+Route::get('admin/login', [App\Http\Controllers\Auth\AdminController::class, 'showLoginForm'])->name('admin.login');
+Route::post('admin/login', [App\Http\Controllers\Auth\AdminController::class, 'login'])->name('admin.login.submit');
+Route::get('admin/logout/', [App\Http\Controllers\Auth\AdminController::class, 'logout'])->name('admin.logout');
 
+Route::group(['middleware' => 'auth:admin'], function(){
+    @include('admin.php');
+});
 
-@include('admin.php');
+// Auth::routes();
+Auth::routes(['register' => false, 'login' => false]);
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
