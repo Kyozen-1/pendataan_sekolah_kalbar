@@ -11,4 +11,24 @@ class Wilayah extends Model
 
     protected $table = 'wilayah';
     protected $guarded = 'id';
+
+    public function sekolah_provinsi()
+    {
+        return $this->hasMany('App\Models\Sekolah', 'provinsi_id');
+    }
+
+    public function sekolah_kabupaten()
+    {
+        return $this->hasMany('App\Models\Sekolah', 'kabupaten_id');
+    }
+
+    public function sekolah_kecamatan()
+    {
+        return $this->hasMany('App\Models\Sekolah', 'kecamatan_id');
+    }
+
+    public function sekolah_kelurahan()
+    {
+        return $this->hasMany('App\Models\Sekolah', 'kelurahan_id');
+    }
 }

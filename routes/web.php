@@ -21,7 +21,7 @@ Route::get('/', [App\Http\Controllers\LandingPage\HomeController::class, 'index'
 
 Route::get('admin/login', [App\Http\Controllers\Auth\AdminController::class, 'showLoginForm'])->name('admin.login');
 Route::post('admin/login', [App\Http\Controllers\Auth\AdminController::class, 'login'])->name('admin.login.submit');
-Route::get('admin/logout/', [App\Http\Controllers\Auth\AdminController::class, 'logout'])->name('admin.logout');
+Route::post('admin/logout/', [App\Http\Controllers\Auth\AdminController::class, 'logout'])->name('admin.logout');
 
 Route::group(['middleware' => 'auth:admin'], function(){
     @include('admin.php');
@@ -31,3 +31,7 @@ Route::group(['middleware' => 'auth:admin'], function(){
 Auth::routes(['register' => false, 'login' => false]);
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::prefix('dll')->group(function(){
+    Route::get('/get-location-autocomplete', [App\Http\Controllers\DllController::class, 'getLocationAutocomplete']);
+});

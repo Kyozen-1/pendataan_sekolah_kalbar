@@ -13,6 +13,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{route('admin.sekolah.index')}}">
+                        <i class="mdi mdi-view-dashboard"></i>
+                        <span> Sekolah </span>
+                    </a>
+                </li>
+                <li>
                     <a  href="javascript: void(0);">
                         <i class="mdi mdi-view-dashboard"></i>
                         <span> Master Data </span>
