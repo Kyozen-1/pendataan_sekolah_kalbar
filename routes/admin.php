@@ -20,6 +20,8 @@ Route::group(['prefix' => 'admin'], function(){
         Route::post('/', [App\Http\Controllers\Admin\SekolahController::class, 'store'])->name('admin.sekolah.store');
         Route::post('/update', [App\Http\Controllers\Admin\SekolahController::class, 'update'])->name('admin.sekolah.update');
         Route::get('/edit/{id}', [App\Http\Controllers\Admin\SekolahController::class, 'edit'])->name('admin.sekolah.edit');
+        Route::get('/detail/{id}', [App\Http\Controllers\Admin\SekolahController::class, 'detail'])->name('admin.sekolah.detail');
+        Route::get('/destroy/{id}', [App\Http\Controllers\Admin\SekolahController::class, 'destroy'])->name('admin.sekolah.destroy');
     });
 
     Route::prefix('master-jenjang-sekolah')->group(function(){

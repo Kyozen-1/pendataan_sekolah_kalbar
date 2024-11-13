@@ -513,4 +513,56 @@ class SekolahController extends Controller
 
         return response()->json(['success' => 'Sekolah ' .$request->nama. ' berhasil diubah']);
     }
+
+    public function detail($id)
+    {
+        $id = Crypt::decryptString($id);
+        $sekolah = Sekolah::find($id);
+        $data = [
+            'master_jenjang_sekolah' => $sekolah->master_jenjang_sekolah ? $sekolah->master_jenjang_sekolah->nama : '',
+            'nama' => $sekolah->nama,
+            'npsn' => $sekolah->npsn,
+            'status_sekolah' => $sekolah->status_sekolah,
+            'status_internet' => $sekolah->status_internet,
+            'jaringan_internet' => $sekolah->jaringan_internet,
+            'master_kecepatan_internet' => $sekolah->master_kecepatan_internet ? $sekolah->master_kecepatan_internet->nama : '',
+            'logo' => $sekolah->siaplah_sekolah_id ? $sekolah->logo : asset($sekolah->logo),
+            'nama_kepsek' => $sekolah->nama_kepsek,
+            'tanda_tangan_kepsek' => $sekolah->siaplah_sekolah_id ? $sekolah->tanda_tangan_kepsek : asset($sekolah->tanda_tangan_kepsek),
+            'nip_kepsek' => $sekolah->nip_kepsek,
+            'alamat' => $sekolah->alamat,
+            'status_rawan_banjir' => $sekolah->status_rawan_banjir,
+            'total_siswa' => $sekolah->total_siswa,
+            'no_hp' => $sekolah->no_hp,
+            'master_kurikulum' => $sekolah->master_kurikulum ? $sekolah->master_kurikulum->nama : '',
+            'provinsi' => $sekolah->provinsi ? $sekolah->provinsi->nama : '',
+            'kabupaten' => $sekolah->kabupaten ? $sekolah->kabupaten->nama : '',
+            'kecamatan' => $sekolah->kecamatan ? $sekolah->kecamatan->nama : '',
+            'kelurahan' => $sekolah->kelurahan ? $sekolah->kelurahan->nama : '',
+            'kode_penerbitan' => $sekolah->kode_penerbitan,
+            'kode_jenjang_pendidikan' => $sekolah->kode_jenjang_pendidikan,
+            'lama_program_belajar_smk' => $sekolah->lama_program_belajar_smk,
+            'akreditasi' => $sekolah->akreditasi,
+            'berkas_sertifikat_akreditasi' => $sekolah->siaplah_sekolah_id ? $sekolah->berkas_sertifikat_akreditasi : asset($sekolah->berkas_sertifikat_akreditasi),
+            'lng' => (float) $sekolah->lng,
+            'lat' => (float) $sekolah->lat,
+            'is_dummy' => $sekolah->is_dummy == '1' ? 'Ya' : 'Tidak',
+            ''
+        ];
+
+        return response()->json(['result' => $data]);
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $id = Crypt::decryptString($id);
+            $sekolah = Sekolah::find($id);
+            $sekolah->is_active = '0';
+            $sekolah->save();
+            return response()->json(['success' => 'Berhasil Menghapus Sekolah '. $sekolah->nama]);
+        } catch (\Throwable $th) {
+            return response()->json(['errors' => $th->getMessage()]);
+        }
+    }
 }

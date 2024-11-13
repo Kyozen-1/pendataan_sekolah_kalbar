@@ -541,6 +541,163 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div>
+
+    <div id="detailModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="detailModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="detail-title">Detail Data Sekolah</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group row">
+                                <label for="detail_jenjang_sekolah" class="control-label col-md-7">Jenjang Sekolah</label>
+                                <div class="col-md-5">
+                                    <span id="detail_jenjang_sekolah"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="detail_nama" class="control-label col-md-7">Nama Sekolah</label>
+                                <div class="col-md-5">
+                                    <span id="detail_nama"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="detail_npsn" class="control-label col-md-7">NPSN Sekolah</label>
+                                <div class="col-md-5">
+                                    <span id="detail_npsn"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="detail_status_sekolah" class="control-label col-md-7">Status Sekolah</label>
+                                <div class="col-md-5">
+                                    <span id="detail_status_sekolah"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="detail_kurikulum" class="control-label col-md-7">Kurikulum Yang Digunakan</label>
+                                <div class="col-md-5">
+                                    <span id="detail_kurikulum"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="detail_status_internet" class="control-label col-md-7">Status Internet</label>
+                                <div class="col-md-5">
+                                    <span id="detail_status_internet"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="detail_jaringan_internet" class="control-label col-md-7">Jaringan Internet</label>
+                                <div class="col-md-5">
+                                    <span id="detail_jaringan_internet"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="detail_kecepatan_internet" class="control-label col-md-7">Kecepatan Internet</label>
+                                <div class="col-md-5">
+                                    <span id="detail_kecepatan_internet"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="detail_logo" class="control-label col-md-7">Logo Sekolah</label>
+                                <div class="col-md-5">
+                                    <img src="" alt="" id="detail_logo" height="100px">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="detail_nama_kepsek" class="control-label col-md-7">Nama Kepala Sekolah</label>
+                                <div class="col-md-5">
+                                    <span id="detail_nama_kepsek"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="detail_tanda_tangan_kepsek" class="control-label col-md-7">Tanda Tangan Kepala Sekolah</label>
+                                <div class="col-md-5">
+                                    <img src="" alt="" id="detail_tanda_tangan_kepsek" height="100px">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="detail_akreditasi" class="control-label col-md-7">Akreditasi</label>
+                                <div class="col-md-5">
+                                    <span id="detail_akreditasi"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="detail_berkas_sertifikat_akreditasi" class="control-label col-md-7">Sertifikat Akreditasi</label>
+                                <div class="col-md-5">
+                                    <img src="" alt="" id="detail_berkas_sertifikat_akreditasi" height="100px">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group row">
+                                <label for="detail_nip_kepsek" class="control-label col-md-7">NIP Kepala Sekolah</label>
+                                <div class="col-md-5">
+                                    <span id="detail_nip_kepsek"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="detail_no_hp" class="control-label col-md-7">Nomor Hp/Wa</label>
+                                <div class="col-md-5">
+                                    <span id="detail_no_hp"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="detail_alamat" class="control-label col-md-7">Alamat</label>
+                                <div class="col-md-5">
+                                    <span id="detail_alamat"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="detail_rawan_banjir" class="control-label col-md-7">Status Rawan Banjir</label>
+                                <div class="col-md-5">
+                                    <span id="detail_rawan_banjir"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="detail_total_siswa" class="control-label col-md-7">Total Siswa</label>
+                                <div class="col-md-5">
+                                    <span id="detail_total_siswa"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="detail_provinsi" class="control-label col-md-7">Provinsi</label>
+                                <div class="col-md-5">
+                                    <span id="detail_provinsi"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="detail_kabupaten" class="control-label col-md-7">Kabupaten</label>
+                                <div class="col-md-5">
+                                    <span id="detail_kabupaten"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="detail_kecamatan" class="control-label col-md-7">Kecamatan</label>
+                                <div class="col-md-5">
+                                    <span id="detail_kecamatan"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="detail_kelurahan" class="control-label col-md-7">Kelurahan</label>
+                                <div class="col-md-5">
+                                    <span id="detail_kelurahan"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="detail_status_dummy" class="control-label col-md-7">Status Dummy</label>
+                                <div class="col-md-5">
+                                    <span id="detail_status_dummy"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
 @endsection
 
 @section('js')
@@ -1160,6 +1317,96 @@
                 }
             });
         });
+
+        $(document).on('click', '.detail', function(){
+            var id = $(this).attr('id');
+            var url = "{{ route('admin.sekolah.detail', ['id' => ":id"]) }}";
+            url = url.replace(':id', id);
+
+            $.ajax({
+                url : url,
+                dataType: "json",
+                success: function(data)
+                {
+                    $('#detail_jenjang_sekolah').text(data.result.master_jenjang_sekolah);
+                    $('#detail_nama').text(data.result.nama);
+                    $('#detail_npsn').text(data.result.npsn);
+                    $('#detail_status_sekolah').text(data.result.status_sekolah);
+                    $('#detail_kurikulum').text(data.result.master_kurikulum);
+                    $('#detail_status_internet').text(data.result.status_internet);
+                    $('#detail_jaringan_internet').text(data.result.jaringan_internet);
+                    $('#detail_kecepatan_internet').text(data.result.master_kecepatan_internet);
+                    $('#detail_logo').attr('src', data.result.logo);
+                    $('#detail_nama_kepsek').text(data.result.nama_kepsek);
+                    $('#detail_tanda_tangan_kepsek').attr('src', data.result.tanda_tangan_kepsek);
+                    $('#detail_akreditasi').text(data.result.akreditasi);
+                    $('#detail_nip_kepsek').text(data.result.nip_kepsek);
+                    $('#detail_no_hp').text(data.result.no_hp);
+                    $('#detail_alamat').text(data.result.alamat);
+                    $('#detail_rawan_banjir').text(data.result.status_rawan_banjir);
+                    $('#detail_total_siswa').text(data.result.total_siswa);
+                    $('#detail_provinsi').text(data.result.provinsi);
+                    $('#detail_kabupaten').text(data.result.kabupaten);
+                    $('#detail_kecamatan').text(data.result.kecamatan);
+                    $('#detail_kelurahan').text(data.result.kelurahan);
+                    $('#detail_status_dummy').text(data.result.is_dummy);
+                    $('#detail_berkas_sertifikat_akreditasi').attr('src', data.result.berkas_sertifikat_akreditasi);
+                    $('#detailModal').modal('show');
+                }
+            });
+        });
+
+        $(document).on('click', '.delete', function(){
+            var id = $(this).attr('id');
+            var url  = "{{ route('admin.sekolah.destroy', ['id' => ":id"]) }}";
+            url = url.replace(":id", id);
+            return new swal({
+                title: "Apakah Anda Yakin?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#1976D2",
+                confirmButtonText: "Ya"
+            }).then((result)=>{
+                if(result.value)
+                {
+                    $.ajax({
+                        url: url,
+                        dataType: 'json',
+                        beforeSend: function()
+                        {
+                            return new swal({
+                                title: "Checking...",
+                                text: "Harap Menunggu",
+                                imageUrl: "{{ asset('/images/preloader.gif') }}",
+                                showConfirmButton: false,
+                                allowOutsideClick: false
+                            });
+                        },
+                        success: function(data)
+                        {
+                            var html = '';
+                            if(data.errors)
+                            {
+                                Swal.fire({
+                                    icon: 'errors',
+                                    title: data.errors,
+                                    showConfirmButton: true
+                                });
+                            }
+                            if(data.success)
+                            {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: data.success,
+                                    showConfirmButton: true
+                                });
+                                $('#sekolah_table').DataTable().ajax.reload();
+                            }
+                        }
+                    });
+                }
+            });
+        })
     </script>
 
     <script>
