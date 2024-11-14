@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/fontawesome.min.css" integrity="sha512-RvQxwf+3zJuNwl4e0sZjQeX7kUa3o82bDETpgVCH2RiwYSZVDdFJ7N/woNigN/ldyOOoKw8584jM4plQdt8bhA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ asset('dropify/css/dropify.min.css') }}">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
-    <script src="{{ asset('leaflet/js/leaflet.textpath.js') }}"></script>
     <style>
-        #map { height: 40rem; }
+        #map {
+            height: 600px;
+            width: 100%;
+        }
     </style>
 @endsection
 
@@ -28,41 +28,80 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js" integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/fontawesome.min.js" integrity="sha512-j3gF1rYV2kvAKJ0Jo5CdgLgSYS7QYmBVVUjduXdoeBkc4NFV4aSRTi+Rodkiy9ht7ZYEwF+s09S43Z1Y+ujUkA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('js/sweetalert.js') }}"></script>
-    <script src="{{ asset('dropify/js/dropify.min.js') }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('API_KEY_GOOGLEMAPS') }}&callback=initMap" async defer></script>
     <script>
-        const map = L.map('map').setView([-0.0239314,109.3424808], 15);
-        var markers = new L.FeatureGroup();
-        var popup = L.popup();
-                googleStreets = L.tileLayer('http://{s}.google.com/vt?lyrs=s&x={x}&y={y}&z={z}',{
-                    maxZoom: 20,
-                    subdomains:['mt0','mt1','mt2','mt3']
-                }).addTo(map);
-        $.getJSON("{{ asset('json/smp.json') }}", function(data){
-            $.each(data, function(index){
-                marker = L.circleMarker([data[index].lat,data[index].lng],{
-                    radius: 5,
-                    weight: 2,
-                    opacity: 0,
-                    fillOpacity: 1,
-                    color: "#ffff00"
-                }).addTo(markers).on('click', function(e){
-                    urlGambar = "{{asset('images/logo-fraksi')}}" + '/' + data[index].logo_partai;
-                    konten_html = '<div>';
-                        konten_html += '<div style="text-align:left">';
-                            konten_html += '<label class="form-label">Nama Sekolah: </label><span>'+data[index].nama_sekolah+'</span>';
-                            konten_html += '<br>'
-                            konten_html += '<label class="form-label">Kecamatan: </label><span>'+data[index].kecamatan+'</span>';
-                            konten_html += '<br>'
-                            konten_html += '<label class="form-label">Jumlah Siswa: </label><span>'+data[index].peserta_didik+'</span>';
-                        konten_html += '</div>';
-                    konten_html += '</div>';
-                    popup
-                        .setLatLng(e.latlng)
-                        .setContent(konten_html)
-                        .openOn(map);
-                });
-            })
-        });
-        map.addLayer(markers);
+        function initMap() {
+            // Center the map on West Kalimantan
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 8,
+                center: { lat: -0.203649, lng: 110.677010 }, // Adjust as needed
+            });
+
+            // Load GeoJSON from the public directory
+            map.data.loadGeoJson('/geojson/kalimantan_barat.json');
+
+            // Style the polygons
+            map.data.setStyle({
+                fillColor: '#FF0000',
+                strokeColor: '#000000',
+                strokeWeight: 1,
+                fillOpacity: 0.1,
+            });
+
+            // Add info windows on polygon click
+            const infoWindow = new google.maps.InfoWindow();
+
+            map.data.addListener('click', (event) => {
+                // Access the properties directly
+                const name3 = event.feature.getProperty('NAME_3') || "N/A";
+                const name1 = event.feature.getProperty('NAME_1') || "N/A";
+                const country = event.feature.getProperty('COUNTRY') || "N/A";
+
+                const content = `
+                    <div>
+                        <strong>Kelurahan / Desa: </strong>${name3}<br>
+                        <strong>Kecamatan: </strong>${name1}<br>
+                        <strong>Kabupaten: </strong>${country}<br>
+                    </div>
+                `;
+                infoWindow.setContent(content);
+                infoWindow.setPosition(event.latLng);
+                infoWindow.open(map);
+            });
+
+            fetch("{{ route('marker.sekolah') }}")
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(markerData => {
+                        const marker = new google.maps.Marker({
+                            position: { lat: parseFloat(markerData.lat), lng: parseFloat(markerData.lng) },
+                            map: map,
+                            title: markerData.nama,
+                            icon: {
+                                url: markerData.ikon_peta,
+                                scaledSize: new google.maps.Size(50, 50)
+                            }
+                        });
+                        const infoWindow = new google.maps.InfoWindow({
+                            content: `
+                                <div class="row p-3">
+                                    <div class="col-md-4 justify-content-center align-self-center text-center">
+                                        <img style="height:10rem" src="${markerData.logo}" class="text-center">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h4>${markerData.nama}</h4>
+                                        <p>${markerData.alamat}</p>
+                                    </div>
+                                </div>
+                            `,
+                        });
+
+                        marker.addListener('click', () => {
+                            infoWindow.open(map, marker);
+                        });
+                    });
+                })
+                .catch(error => console.error('Error fetching marker data:', error));
+        }
     </script>
 @endsection

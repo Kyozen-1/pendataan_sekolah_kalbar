@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', [App\Http\Controllers\LandingPage\HomeController::class, 'index'])->name('home');
+Route::get('/marker/sekolah', [App\Http\Controllers\LandingPage\HomeController::class, 'markerSekolah'])->name('marker.sekolah');
 
 Route::get('admin/login', [App\Http\Controllers\Auth\AdminController::class, 'showLoginForm'])->name('admin.login');
 Route::post('admin/login', [App\Http\Controllers\Auth\AdminController::class, 'login'])->name('admin.login.submit');

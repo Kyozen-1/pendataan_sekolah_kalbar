@@ -431,6 +431,12 @@
                         <div class="row">
                             <div class="col-12 col-md-4">
                                 <div class="form-group">
+                                    <label for="lengkapi_data_nama" class="control-label">Nama Sekolah</label>
+                                    <input type="text" class="form-control" id="lengkapi_data_nama" disabled>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
                                     <label for="lengkapi_data_master_jenjang_sekolah_id" class="control-label">Jenjang Sekolah<span class="text-danger">*</span></label>
                                     <select name="lengkapi_data_master_jenjang_sekolah_id" id="lengkapi_data_master_jenjang_sekolah_id" class="form-control" parsley-trigger="change" required>
                                         <option value="">--- Pilih Jenjang Sekolah ---</option>
@@ -1440,6 +1446,7 @@
                 dataType: "json",
                 success: function(data)
                 {
+                    $('#lengkapi_data_nama').val(data.result.nama);
                     $("[name='lengkapi_data_master_jenjang_sekolah_id']").val(data.result.master_jenjang_sekolah_id).trigger('change');
                     $("[name='lengkapi_data_master_kurikulum_id']").val(data.result.master_kurikulum_id).trigger('change');
                     $("[name='lengkapi_data_master_kecepatan_internet_id']").val(data.result.master_kecepatan_internet_id).trigger('change');

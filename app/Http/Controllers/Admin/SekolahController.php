@@ -295,6 +295,7 @@ class SekolahController extends Controller
 
         $data = [
             'id' => Crypt::encryptString($sekolah->id),
+            'nama' => $sekolah->nama,
             'master_jenjang_sekolah_id' => $sekolah->master_jenjang_sekolah_id,
             'master_kurikulum_id' => $sekolah->master_kurikulum_id,
             'master_kecepatan_internet_id' => $sekolah->master_kecepatan_internet_id,

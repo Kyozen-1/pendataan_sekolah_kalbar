@@ -8,6 +8,7 @@
 <link href="{{ asset('/adminto/assets/libs/datatables/buttons.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('/adminto/assets/libs/datatables/select.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('/adminto/assets/libs/custombox/custombox.min.css') }}" rel="stylesheet">
+<link href="{{ asset('/adminto/assets/libs/dropify/dropify.min.css') }}" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
 <style>
     .table th {
@@ -54,6 +55,7 @@
                         <tr>
                             <th width="10%">No</th>
                             <th>Nama</th>
+                            <th>Ikon Peta</th>
                             <th width="20%">Aksi</th>
                         </tr>
                     </thead>
@@ -76,6 +78,10 @@
                             <label for="nama" class="control-label">Nama<span class="text-danger">*</span></label>
                             <input type="text" name="nama" id="nama" parsley-trigger="change" required
                             placeholder="Masukan nama ..." class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="ikon_peta" class="control-label">Ikon Peta</label>
+                            <input type="file" name="ikon_peta" id="ikon_peta" parsley-trigger="change" required class="dropify" data-height="150">
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -101,6 +107,12 @@
                         <label for="detail_nama" class="control-label col-md-4">Nama </label>
                         <div class="col-md-8">
                             <span id="detail_nama"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="detail_ikon_peta" class="control-label col-md-4">Ikon Peta </label>
+                        <div class="col-md-8">
+                            <img src="" alt="Ikon Peta" id="detail_ikon_peta" class="img-fluid">
                         </div>
                     </div>
                 </div>
@@ -144,6 +156,12 @@
     <script src="{{ asset('/adminto/assets/libs/pdfmake/vfs_fonts.js') }}"></script>
     <!-- third party js ends -->
 
+    <!-- dropify js -->
+    <script src="{{ asset('/adminto/assets/libs/dropify/dropify.min.js') }}"></script>
+
+    <!-- form-upload init -->
+    <script src="{{ asset('/adminto/assets/js/pages/form-fileupload.init.js') }}"></script>
+
     <!-- Datatables init -->
     <script src="{{ asset('/adminto/assets/js/pages/datatables.init.js') }}"></script>
     <!-- Validation js (Parsleyjs) -->
@@ -170,6 +188,10 @@
                         name: 'nama'
                     },
                     {
+                        data: 'ikon_peta',
+                        name: 'ikon_peta'
+                    },
+                    {
                         data: 'aksi',
                         name: 'aksi',
                         orderable: false
@@ -190,6 +212,7 @@
                 {
                     $('#detail-title').text('Detail Data');
                     $('#detail_nama').text(data.result.nama);
+                    $('#detail_ikon_peta').attr('src', data.result.ikon_peta);
                     $('#detail').modal('show');
                 }
             });
@@ -202,6 +225,8 @@
             $('#aksi_button').val('Save');
             $('#aksi').val('Save');
             $('#form_result').html('');
+            $("#ikon_peta").prop('required',true);
+            $('.dropify-clear').click();
         });
         $('#master_jenjang_sekolah_form').on('submit', function(e){
             e.preventDefault();
@@ -210,8 +235,11 @@
                 $.ajax({
                     url: "{{ route('admin.master-jenjang-sekolah.store') }}",
                     method: "POST",
-                    data: $(this).serialize(),
+                    data: new FormData(this),
                     dataType: "json",
+                    contentType: false,
+                    cache: false,
+                    processData: false,
                     beforeSend: function()
                     {
                         $('#aksi_button').text('Menyimpan...');
@@ -226,6 +254,8 @@
                             $('#aksi_button').prop('disabled', false);
                             $('#master_jenjang_sekolah_form')[0].reset();
                             $('#aksi_button').text('Save');
+                            $("#ikon_peta").prop('required',true);
+                            $('.dropify-clear').click();
                             $('#master_jenjang_sekolah_table').DataTable().ajax.reload();
                         }
                         if(data.success)
@@ -246,8 +276,11 @@
                 $.ajax({
                     url: "{{ route('admin.master-jenjang-sekolah.update') }}",
                     method: "POST",
-                    data: $(this).serialize(),
+                    data: new FormData(this),
                     dataType: "json",
+                    contentType: false,
+                    cache: false,
+                    processData: false,
                     beforeSend: function(){
                         $('#aksi_button').text('Mengubah...');
                         $('#aksi_button').prop('disabled', true);
@@ -290,6 +323,19 @@
                 success: function(data)
                 {
                     $('#nama').val(data.result.nama);
+                    $("#ikon_peta").prop('required',false);
+                    var lokasi_ikon_peta = data.result.ikon_peta;
+                    var fileDropperIkonLogo = $("#ikon_peta").dropify({
+                        messages: { default: "Seret dan lepas logo di sini atau klik", replace: "Seret dan lepas logo di sini atau klik", remove: "Remove", error: "Terjadi kesalahan" },
+                        error: { fileSize: "Ukuran file gambar terlalu besar (Maksimal 1 MB)" },
+                    });
+
+                    fileDropperIkonLogo = fileDropperIkonLogo.data('dropify');
+                    fileDropperIkonLogo.resetPreview();
+                    fileDropperIkonLogo.clearElement();
+                    fileDropperIkonLogo.settings['defaultFile'] = lokasi_ikon_peta;
+                    fileDropperIkonLogo.destroy();
+                    fileDropperIkonLogo.init();
                     $('#hidden_id').val(id);
                     $('.modal-title').text('Edit Data');
                     $('#aksi_button').text('Edit');

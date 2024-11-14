@@ -33,7 +33,10 @@ class MasterJenjangSekolahController extends Controller
                     $button  = $button_detail .' '. $button_edit . ' ' . $button_delete;
                     return $button;
                 })
-                ->rawColumns(['aksi'])
+                ->editColumn('ikon_peta', function($data){
+                    return '<img src="'.asset($data->ikon_peta).'" style="height:5rem">';
+                })
+                ->rawColumns(['aksi', 'ikon_peta'])
                 ->make(true);
         }
 
@@ -54,7 +57,8 @@ class MasterJenjangSekolahController extends Controller
     public function store(Request $request)
     {
         $errors = Validator::make($request->all(), [
-            'nama' => 'required'
+            'nama' => 'required',
+            'ikon_peta' => 'required | mimes:png,jpg,jpeg,webp'
         ]);
 
         if($errors -> fails())
@@ -62,8 +66,15 @@ class MasterJenjangSekolahController extends Controller
             return response()->json(['errors' => $errors->errors()->all()]);
         }
 
+        $ikonPetaExtension = $request->ikon_peta->extension();
+        $ikonPetaName = uniqid().'.'.$ikonPetaExtension;
+        $ikonPeta = Image::make($request->ikon_peta);
+        $cropSize1 = public_path('images/ikon-peta/'.$ikonPetaName);
+        $ikonPeta->save($cropSize1, 60);
+
         $master_jenjang_sekolah = new MasterJenjangSekolah;
         $master_jenjang_sekolah->nama = $request->nama;
+        $master_jenjang_sekolah->ikon_peta = 'images/ikon-peta/'.$ikonPetaName;
         $master_jenjang_sekolah->save();
 
         return response()->json(['success' => 'Berhasil menambahkan!']);
@@ -74,7 +85,9 @@ class MasterJenjangSekolahController extends Controller
      */
     public function show(string $id)
     {
-        return response()->json(['result' => MasterJenjangSekolah::find($id)]);
+        $data = MasterJenjangSekolah::find($id);
+        $data->ikon_peta = asset($data->ikon_peta);
+        return response()->json(['result' => $data]);
     }
 
     /**
@@ -82,7 +95,9 @@ class MasterJenjangSekolahController extends Controller
      */
     public function edit(string $id)
     {
-        return response()->json(['result' => MasterJenjangSekolah::find($id)]);
+        $data = MasterJenjangSekolah::find($id);
+        $data->ikon_peta = asset($data->ikon_peta);
+        return response()->json(['result' => $data]);
     }
 
     /**
@@ -101,6 +116,18 @@ class MasterJenjangSekolahController extends Controller
 
         $master_jenjang_sekolah = MasterJenjangSekolah::find($request->hidden_id);
         $master_jenjang_sekolah->nama = $request->nama;
+        if($request->ikon_peta)
+        {
+            File::delete(public_path($master_jenjang_sekolah->ikon_peta));
+
+            $ikonPetaExtension = $request->ikon_peta->extension();
+            $ikonPetaName = uniqid().'.'.$ikonPetaExtension;
+            $ikonPeta = Image::make($request->ikon_peta);
+            $cropSize1 = public_path('images/ikon-peta/'.$ikonPetaName);
+            $ikonPeta->save($cropSize1, 60);
+
+            $master_jenjang_sekolah->ikon_peta = 'images/ikon-peta/'.$ikonPetaName;
+        }
         $master_jenjang_sekolah->save();
 
         return response()->json(['success' => 'Berhasil merubah!']);
